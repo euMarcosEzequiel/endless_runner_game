@@ -16,18 +16,15 @@ var obstacleX = canvas.canvas.width;
 const obstacleY = 130;
 const obstacleWidth = 10;
 const obstacleHeight = 20;
+var speed = 7;
 
 function obstacle() {
     canvas.fillStyle = 'red';
     canvas.fillRect(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
 }
 
-function randomNumber() {
-    return Math.floor(Math.random() * 9) + 1;
-}
-
 function moveObstacle(){
-    obstacleX -= randomNumber();
+    obstacleX -= speed;
 
     if(obstacleX + obstacleWidth < 0){
         obstacleX = canvas.canvas.width;
@@ -55,7 +52,7 @@ function jump() {
             characterY -= 2;
         }
         let jumpInterval = setInterval(() => {
-            if (characterY > canvas.canvas.height - characterHeight - 60) { // 50 é a altura do pulo
+            if (characterY > canvas.canvas.height - characterHeight - 60) {
                 characterY -= 2;
             } else {
                 clearInterval(jumpInterval);
@@ -73,9 +70,6 @@ function jump() {
     }
 }
 
-
-
-
 // estrutura da colisão do personagem como o obstaculo
 function collision() {
     if (
@@ -88,28 +82,16 @@ function collision() {
     }
 }
 
-// setando o game over 
-var isGameOver = false;
-
-function gameOver() {
-    isGameOver = true;
+// inicio do jogo
+function start(){
     canvas.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
     canvas.fillStyle = 'black';
     canvas.font = '12px Arial';
-    canvas.fillText('Game Over', 120, 30);
-    canvas.fillText(`Score: ${score}`, 125, 50);
-    canvas.fillText(`Press enter to play again!`, 75, 70)
+    canvas.fillText('Welcome!', 120, 65);
+    canvas.fillText('Press enter to start game.', 85, 90);
 }
 
-// resetando o jogo
-function resetGame() {
-    score = 0;
-    obstacleX = canvas.canvas.width;
-    isGameOver = false;
-    play();
-}
-
-// estrutura do play
+// começa o jogo
 function play() {
     canvas.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
     
@@ -119,19 +101,46 @@ function play() {
     moveObstacle();
     collision();
     
-    if (!isGameOver) {
+    if (!GameOver) {
         requestAnimationFrame(play);
     }
 }
 
-// acrescentando as keys (teclas) para jogar
+// setando o game over 
+var GameOver = false;
+
+function gameOver() {
+    GameOver = true;
+    canvas.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
+    canvas.fillStyle = 'black';
+    canvas.font = '12px Arial';
+    canvas.fillText('Game Over', 120, 50);
+    canvas.fillText(`Score: ${score}`, 127, 70);
+    canvas.fillText(`Press enter to play again!`, 85, 100);
+}
+
+
+
+// resetando o jogo
+function resetGame() {
+    score = 0;
+    obstacleX = canvas.canvas.width;
+    GameOver = false;
+    play();
+}
+
+// adionando teclas para a interação com o jogo
 document.addEventListener('keydown', function(event) {
+    if(event.code === 'Enter' && GameOver == false){
+        alert('Press the spacebar to jump over the obstacles');
+        play();
+    }
     if (event.code === 'Space') {
         jump();
     }
-    if (event.code === 'Enter' && !jumping) {
+    if (event.code === 'Enter' && GameOver == true && !jumping) {
         resetGame();
     }
 });
 
-play();
+start();
