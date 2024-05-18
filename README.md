@@ -1,6 +1,6 @@
 # Endless Runner Game
 
-<a href='euMarcosEzequiel.github.io/endless_runner_game' target='_blank'>Play the game</a>
+<a href='https://euMarcosEzequiel.github.io/endless_runner_game' target='_blank'>Play the game</a>
 
 ### About
 This project is a simple endless running game developed using HTML, CSS, and JavaScript, with straightforward controls and mechanics. It was designed with the purpose of providing an engaging entertainment experience. The main objective of the game is simple: the player must jump over obstacles in order to avoid them and score as many points as possible.
